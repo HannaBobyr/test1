@@ -60,7 +60,7 @@ function AddPost({ submit }) {
             help={touched.body && errors.body ? errors.body : ""}
             validateStatus={touched.body && errors.body ? "error" : undefined}
           >
-            <TextArea showCount maxLength={100} {...getFieldProps("body")} />
+            <TextArea showCount maxLength={200} {...getFieldProps("body")} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
