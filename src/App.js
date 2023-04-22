@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { Spin } from "antd";
+import Posts from "./components/Posts";
+import Header from "./components/Header";
+import { fetchHttp } from "./store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 function App() {
+  const { items, isFetching, isError, error } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchHttp());
+  }, [dispatch]);
+
+  if (isFetching === true) {
+    return (
+      <div className="loarding-centered">
+        <Spin tip="Loading" size="large">
+          <div className="content" />
+        </Spin>
+      </div>
+    );
+  }
+
+  if (isError === true) {
+    return <h3>Oop..., {error}</h3>;
+  }
+
+  if (items.length === 0) {
+    return <h3>No Posts</h3>;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Posts />
     </div>
   );
 }
